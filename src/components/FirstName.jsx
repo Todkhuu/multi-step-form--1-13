@@ -4,6 +4,33 @@ import { Button } from "./Button";
 import { useState } from "react";
 
 export const FirstName = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+  });
+
+  const handleButton = () => {
+    const newErrors = {
+      firstName: "",
+      lastName: "",
+    };
+
+    if (!firstName.trim()) {
+      newErrors.firstName = "Нэрээ оруул";
+    }
+    if (!lastName.trim()) {
+      newErrors.lastName = "Овгоо андаа";
+    }
+
+    setErrors(newErrors);
+
+    //Алдаа байхгүй бол цааш үйлдэл хийх
+    if (!newErrors.firstName && !newErrors.lastName) {
+      console.log("Form submitted successfully!");
+    }
+  };
   return (
     <div className="w-[480px] h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between">
       <div>
@@ -20,21 +47,27 @@ export const FirstName = () => {
           <Input
             label={"First name"}
             placeholder={"Your first name"}
-            error={"First name cannot contain special characters or numbers."}
+            // error={"First name cannot contain special characters or numbers."}
+            error={errors.firstName}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
           <Input
             label={"Last name"}
             placeholder={"Your last name"}
-            error={"Last name cannot contain special characters or numbers."}
+            // error={"Last name cannot contain special characters or numbers."}
+            error={errors.lastName}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
-          <Input
+          {/* <Input
             label={"Username"}
             placeholder={"Your username"}
             error={"This username is already taken. Please choose another one."}
-          />
+          /> */}
         </div>
       </div>
-      <Button bLabel={"Continue"} />
+      <Button onClick={handleButton} bLabel={"Continue"} />
     </div>
   );
 };
