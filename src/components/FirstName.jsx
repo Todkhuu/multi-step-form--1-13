@@ -6,15 +6,18 @@ import { useState } from "react";
 export const FirstName = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
+    userName: "",
   });
 
   const handleButton = () => {
     const newErrors = {
       firstName: "",
       lastName: "",
+      userName: "",
     };
 
     if (!firstName.trim()) {
@@ -23,11 +26,14 @@ export const FirstName = () => {
     if (!lastName.trim()) {
       newErrors.lastName = "Овгоо андаа";
     }
+    if (!userName.trim()) {
+      newErrors.userName = "Хэрэглэгчийн нэр";
+    }
 
     setErrors(newErrors);
 
     //Алдаа байхгүй бол цааш үйлдэл хийх
-    if (!newErrors.firstName && !newErrors.lastName) {
+    if (!newErrors.firstName && !newErrors.lastName && !newErrors.userName) {
       console.log("Form submitted successfully!");
     }
   };
@@ -47,7 +53,6 @@ export const FirstName = () => {
           <Input
             label={"First name"}
             placeholder={"Your first name"}
-            // error={"First name cannot contain special characters or numbers."}
             error={errors.firstName}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -55,16 +60,17 @@ export const FirstName = () => {
           <Input
             label={"Last name"}
             placeholder={"Your last name"}
-            // error={"Last name cannot contain special characters or numbers."}
             error={errors.lastName}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
-          {/* <Input
+          <Input
             label={"Username"}
             placeholder={"Your username"}
-            error={"This username is already taken. Please choose another one."}
-          /> */}
+            error={errors.userName}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
         </div>
       </div>
       <Button onClick={handleButton} bLabel={"Continue"} />
