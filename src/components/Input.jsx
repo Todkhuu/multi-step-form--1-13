@@ -1,5 +1,4 @@
-export const Input = ({ label, placeholder, error }) => {
-  //   const error = null;
+export const Input = ({ label, placeholder, error, handleChange }) => {
   return (
     <div className="flex flex-col gap-2">
       <p className="text-[#334155] text-[14px] font-semibold ">
@@ -10,8 +9,9 @@ export const Input = ({ label, placeholder, error }) => {
         className="border-[#334155] border-[1px] rounded-lg outline-none w-[416px] h-[40px] text-base p-3 active:border-[#0CA5e9]"
         type="text"
         placeholder={placeholder}
+        // onChange={handleChange}
       />
-      <p className="text-[14px] text-[#e14942] ">{error}</p>
+      <p className="text-[14px] text-[#e14942] hidden">{error}</p>
     </div>
   );
 };
