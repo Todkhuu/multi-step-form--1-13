@@ -1,6 +1,7 @@
 "use client";
 import { Input } from "./Input";
 import { Button } from "./Button";
+import { Header } from "./Header";
 import { useState } from "react";
 
 export const FirstStep = ({ setCurrentStep, currentStep }) => {
@@ -52,15 +53,7 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
   return (
     <div className="w-[480px] h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between">
       <div>
-        <div>
-          <img src="/logo.png" alt="" />
-          <h2 className="text-[#202124] text-[26px] font-semibold mt-2 ">
-            Join Us! 😎
-          </h2>
-          <p className="text-[#8E8E8E] text-[18px] mt-2">
-            Please provide all current information accurately.
-          </p>
-        </div>
+        <Header />
         <div className="flex flex-col gap-3 mt-[28px]">
           <Input
             label={"First Name"}

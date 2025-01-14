@@ -13,10 +13,10 @@ export const Button = ({ bLabel, onClick, currentStep }) => {
     </button>
   );
 };
-export const BackButton = ({ bLabel, back }) => {
+export const BackButton = ({ bLabel, backClick }) => {
   return (
     <button
-      onClick={back}
+      onClick={backClick}
       className="w-[30%] h-[44px] text-[#121316] rounded-[6px] border-[#CBD5E1] border-[1px] bg-white flex items-center justify-center"
     >
       <ChevronLeft />
