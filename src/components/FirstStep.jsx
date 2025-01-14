@@ -88,7 +88,7 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
           />
         </div>
       </div>
-      <Button onClick={handleClick} bLabel={"Continue"} />
+      <Button onClick={handleClick} bLabel={"Continue"}  />
     </div>
   );
 };

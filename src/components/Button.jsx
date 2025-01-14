@@ -1,21 +1,19 @@
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 
-export const Button = ({ bLabel, onClick }) => {
+export const Button = ({ bLabel, onClick, currentStep, setCurrentStep }) => {
   return (
     <button
       onClick={onClick}
       className="w-[100%] h-[44px] bg-[#121316] rounded-[6px] text-white flex items-center justify-center"
     >
       {bLabel}
+      {/* {currentStep + 1}/3 */}
       <ChevronRight />
     </button>
   );
 };
-export const BackButton = ({
-  bLabel,
-  back,
-}) => {
+export const BackButton = ({ bLabel, back }) => {
   return (
     <button
       onClick={back}

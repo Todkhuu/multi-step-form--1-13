@@ -62,7 +62,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
     }
   };
 
-  const back = () => {
+  const handleClickBack = () => {
     return setCurrentStep(currentStep - 1);
   };
   return (
@@ -113,7 +113,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
         </div>
       </div>
       <div className="flex gap-[10px]">
-        <BackButton back={back} bLabel={"Back"} />
+        <BackButton back={handleClickBack} bLabel={"Back"} />
         <Button onClick={handleClick} bLabel={"Continue"} />
       </div>
     </div>
