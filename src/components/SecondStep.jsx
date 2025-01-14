@@ -114,7 +114,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
       </div>
       <div className="flex gap-[10px]">
         <BackButton back={handleClickBack} bLabel={"Back"} />
-        <Button onClick={handleClick} bLabel={"Continue"} />
+        <Button onClick={handleClick} bLabel={"Continue"} currentStep={currentStep} />
       </div>
     </div>
   );

@@ -81,14 +81,18 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
                 Add image
               </p>
             </div>
-            <input hidden type="file" onChange={handleChange} name="file" />
+            <input type="file" onChange={handleChange} name="file" />
             <p className="text-[14px] mt-2 text-red-600 ">{formErrors.file} </p>
           </div>
         </div>
       </div>
       <div className="flex gap-[10px]">
         <BackButton back={handleClickBack} bLabel={"Back"} />
-        <Button onClick={handleClick} bLabel={"Continue"} />
+        <Button
+          onClick={handleClick}
+          bLabel={"Continue"}
+          currentStep={currentStep}
+        />
       </div>
     </div>
   );
