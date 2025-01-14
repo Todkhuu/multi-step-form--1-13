@@ -1,6 +1,4 @@
 export const Input = ({ label, placeholder, error, onChange }) => {
-  let errors = "";
-
   return (
     <div className="flex flex-col gap-2">
       <p className="text-[#334155] text-[14px] font-semibold ">
@@ -9,7 +7,7 @@ export const Input = ({ label, placeholder, error, onChange }) => {
       </p>
       <input
         className={`border-[#334155] border-[1px] rounded-lg outline-none w-[416px] h-[40px] text-base p-3 ${
-          errors ? "focus:border-red-600" : "focus:border-green-600"
+          error ? "border-red-600" : "focus:border-green-600"
         }`}
         type="text"
         placeholder={placeholder}
