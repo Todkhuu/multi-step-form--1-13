@@ -32,11 +32,21 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
         ...prev,
         firstName: "Нэрээ оруул",
       }));
+    } else if (/[^a-zA-Z]/.test(firstName)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        firstName: "Текст оруулна уу",
+      }));
     }
     if (!lastName.trim()) {
       setFormErrors((prev) => ({
         ...prev,
         lastName: "Овгоо оруул",
+      }));
+    } else if (/[^a-zA-Z]/.test(lastName)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        lastName: "Текст оруулна уу",
       }));
     }
     if (!userName.trim()) {
@@ -44,8 +54,12 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
         ...prev,
         userName: "Хэрэглэгчийн нэр",
       }));
-    }
-    if (firstName.trim() && lastName.trim() && userName.trim()) {
+    } else if (/[^a-zA-Z]/.test(userName)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        userName: "Текст оруулна уу",
+      }));
+    } else {
       return setCurrentStep(currentStep + 1);
     }
   };

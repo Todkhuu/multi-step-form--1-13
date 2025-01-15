@@ -33,11 +33,26 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
         ...prev,
         email: "Мэйл хаягаа оруулна уу",
       }));
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        email: "Зөв мэйл хаяг оруулна уу",
+      }));
     }
     if (!phoneNumber.trim()) {
       setFormErrors((prev) => ({
         ...prev,
         phoneNumber: "Утасны дугаараа оруулна уу.",
+      }));
+    } else if (!/^\+?\d{8}$/.test(phoneNumber)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        phoneNumber: "Тоо оруулна уу",
+      }));
+    } else if (phoneNumber.length < 8) {
+      setFormErrors((prev) => ({
+        ...prev,
+        phoneNumber: "8 оронтой дугаар оруулна уу.",
       }));
     }
     if (!password.trim()) {
@@ -52,13 +67,17 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
         confirmPassword: "Нууц үгээ давтаж оруулна уу",
       }));
     }
-
-    if (
-      email.trim() &&
-      phoneNumber.trim() &&
-      password.trim() &&
-      confirmPassword.trim()
-    ) {
+    if (password.length < 6) {
+      setFormErrors((prev) => ({
+        ...prev,
+        password: "6 оронтой дугаар оруулна уу.",
+      }));
+    } else if (password !== confirmPassword) {
+      setFormErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Таны оруулсан нууц үг таарахгүй байна.",
+      }));
+    } else {
       return setCurrentStep(currentStep + 1);
     }
   };
@@ -81,7 +100,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
           />
           <Input
             label={"Phone number"}
-            type={"number"}
+            type={"text"}
             placeholder={"Your phone number"}
             onChange={handleChange}
             error={formErrors.phoneNumber}
