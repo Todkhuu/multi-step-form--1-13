@@ -26,22 +26,14 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   const handleClick = () => {
     const { date, file } = formValues;
 
-    if (!date.trim()) {
-      setFormErrors((prev) => ({
-        ...prev,
-        date: "Төрсөн өдрөө оруулна уу",
-      }));
-    }
-    if (!file.trim()) {
-      setFormErrors((prev) => ({
-        ...prev,
-        file: "Профайл зурагаа оруулна уу",
-      }));
-    }
+    !date
+      ? setFormErrors((prev) => ({ ...prev, date: "Төрсөн өдрөө оруулна уу", }))
+      : "";
+    !file
+      ? setFormErrors((prev) => ({ ...prev, file: "Профайл зурагаа оруулна уу", }))
+      : "";
 
-    if (date.trim() && file.trim()) {
-      return setCurrentStep(currentStep + 1);
-    }
+    date && file ? setCurrentStep(currentStep + 1) : "";
   };
 
   const handleClickBack = () => {
