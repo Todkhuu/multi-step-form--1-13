@@ -27,41 +27,32 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
   const handleClick = () => {
     const { firstName, lastName, userName } = formValues;
 
-    if (!firstName.trim()) {
-      setFormErrors((prev) => ({
-        ...prev,
-        firstName: "Нэрээ оруул",
-      }));
-    } else if (/[^a-zA-Z]/.test(firstName)) {
-      setFormErrors((prev) => ({
-        ...prev,
-        firstName: "Текст оруулна уу",
-      }));
-    }
-    if (!lastName.trim()) {
-      setFormErrors((prev) => ({
-        ...prev,
-        lastName: "Овгоо оруул",
-      }));
-    } else if (/[^a-zA-Z]/.test(lastName)) {
-      setFormErrors((prev) => ({
-        ...prev,
-        lastName: "Текст оруулна уу",
-      }));
-    }
-    if (!userName.trim()) {
-      setFormErrors((prev) => ({
-        ...prev,
-        userName: "Хэрэглэгчийн нэр",
-      }));
-    } else if (/[^a-zA-Z]/.test(userName)) {
-      setFormErrors((prev) => ({
-        ...prev,
-        userName: "Текст оруулна уу",
-      }));
-    } else {
-      return setCurrentStep(currentStep + 1);
-    }
+    !firstName.trim()
+      ? setFormErrors((prev) => ({ ...prev, firstName: "Нэрээ оруул" }))
+      : /[^a-zA-Z]/.test(firstName)
+      ? setFormErrors((prev) => ({ ...prev, firstName: "Текст оруулна уу" }))
+      : "";
+
+    !lastName.trim()
+      ? setFormErrors((prev) => ({ ...prev, lastName: "Овгоо оруул" }))
+      : /[^a-zA-Z]/.test(lastName)
+      ? setFormErrors((prev) => ({ ...prev, lastName: "Текст оруулна уу" }))
+      : "";
+
+    !userName.trim()
+      ? setFormErrors((prev) => ({ ...prev, userName: "Хэрэглэгчийн нэр" }))
+      : /[^a-zA-Z]/.test(userName)
+      ? setFormErrors((prev) => ({ ...prev, userName: "Текст оруулна уу" }))
+      : "";
+
+    firstName.trim() &&
+    !/[^a-zA-Z]/.test(firstName) &&
+    lastName.trim() &&
+    !/[^a-zA-Z]/.test(lastName) &&
+    userName.trim() &&
+    !/[^a-zA-Z]/.test(userName)
+      ? setCurrentStep(currentStep + 1)
+      : "";
   };
 
   return (
