@@ -3,7 +3,7 @@ import { Button } from "./Button";
 import { BackButton } from "./Button";
 import { Header } from "./Header";
 import { ThirdMiddle } from "./ThirdMiddle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   const [formValues, setFormValues] = useState({
@@ -16,12 +16,25 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   });
   const [imageUrl, setImageUrl] = useState();
 
+  useEffect(() => {
+    const date = localStorage.getItem("date");
+    const file = localStorage.getItem("file");
+    if (date && file) {
+      console.log(date && file);
+      setFormValues({
+        ...formValues,
+        date: date,
+        file: file,
+      });
+    }
+  }, []);
+
   const onFileUpload = (event) => {
-    const file = event.target.files[0];
-    setImageUrl(URL.createObjectURL(file));
-    const { name, files } = event.target;
+    const files = event.target.files[0];
+    setImageUrl(URL.createObjectURL(files));
+    const { name, file } = event.target;
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
-    setFormValues((prev) => ({ ...prev, [name]: files }));
+    setFormValues((prev) => ({ ...prev, [name]: file }));
   };
   console.log(formValues.file);
 
@@ -30,7 +43,6 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   let nowDate = new Date();
   let nowYear = nowDate.getFullYear();
   let result = nowYear - userYear;
-  console.log(result);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -41,21 +53,28 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
   const handleClick = () => {
     const { date, file } = formValues;
+    let isValid = true;
 
-    !date
-      ? setFormErrors((prev) => ({ ...prev, date: "Төрсөн өдрөө оруулна уу" }))
-      : "";
-    !file
-      ? setFormErrors((prev) => ({
-          ...prev,
-          file: "Профайл зурагаа оруулна уу",
-        }))
-      : "";
-    result < 18
-      ? setFormErrors((prev) => ({ ...prev, date: "Насанд хүрээгүй байна" }))
-      : "";
+    if (!date) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, date: "Төрсөн өдрөө оруулна уу" }));
+    }
 
-    date && file && result > 18 ? setCurrentStep(currentStep + 1) : "";
+    if (!file) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, file: "Профайл зурагаа оруулна уу" }));
+    }
+
+    if (result < 18) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, date: "Насанд хүрээгүй байна" }));
+    }
+
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+      localStorage.setItem("date", formValues.date);
+      localStorage.setItem("file", formValues.file);
+    }
   };
 
   const handleClickBack = () => {
@@ -69,11 +88,13 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
           <Input
             label={"Date of birth"}
             type={"date"}
+            value={formValues.date}
             onChange={handleChange}
             error={formErrors.date}
             name={"date"}
           />
           <ThirdMiddle
+            value={formValues.file}
             onChange={onFileUpload}
             error={formErrors.file}
             imageUrl={imageUrl}
