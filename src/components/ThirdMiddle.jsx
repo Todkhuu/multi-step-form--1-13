@@ -1,7 +1,7 @@
 import { Image } from "lucide-react";
 import { ThirdStep } from "./ThirdStep";
 
-export const ThirdMiddle = ({ onChange, error, imageUrl }) => {
+export const ThirdMiddle = ({ onChange, error, imageUrl, name }) => {
   return (
     <div>
       <p className="text-[#334155] text-[14px] font-semibold mb-[8px]">
@@ -36,7 +36,7 @@ export const ThirdMiddle = ({ onChange, error, imageUrl }) => {
           id="file-input"
           type="file"
           onChange={onChange}
-          name="file"
+          name={name}
         />
       </label>
       <p className="text-[14px] mt-2 text-red-600 ">{error} </p>

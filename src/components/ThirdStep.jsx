@@ -31,22 +31,25 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
   const onFileUpload = (event) => {
     const files = event.target.files[0];
+    const name = event.target.name;
     setImageUrl(URL.createObjectURL(files));
-    const { name, file } = event.target;
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
-    setFormValues((prev) => ({ ...prev, [name]: file }));
+    setFormValues((prev) => ({ ...prev, [name]: files }));
   };
-  console.log(formValues.file);
+  // console.log(formValues.file);
 
-  let userDate = formValues.date.split("-");
-  let userYear = userDate.at(0);
+  let userYear = 0;
+  if (formValues.date) {
+    let userDate = formValues.date.split("-");
+    userYear = userDate.at(0);
+  }
   let nowDate = new Date();
   let nowYear = nowDate.getFullYear();
   let result = nowYear - userYear;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
+    // console.log(name, value);
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -62,10 +65,13 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
     if (!file) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, file: "Профайл зурагаа оруулна уу" }));
+      setFormErrors((prev) => ({
+        ...prev,
+        file: "Профайл зурагаа оруулна уу",
+      }));
     }
 
-    if (result < 18) {
+    if (formValues.date && result < 18) {
       isValid = false;
       setFormErrors((prev) => ({ ...prev, date: "Насанд хүрээгүй байна" }));
     }
@@ -73,7 +79,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     if (isValid) {
       setCurrentStep(currentStep + 1);
       localStorage.setItem("date", formValues.date);
-      localStorage.setItem("file", formValues.file);
+      localStorage.setItem("file", formValues.file.name);
     }
   };
 
@@ -98,6 +104,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
             onChange={onFileUpload}
             error={formErrors.file}
             imageUrl={imageUrl}
+            name={"file"}
           />
         </div>
       </div>
