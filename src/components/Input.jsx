@@ -1,4 +1,13 @@
-export const Input = ({ label, type, placeholder, error, onChange, name }) => {
+export const Input = ({
+  label,
+  type,
+  placeholder,
+  error,
+  onChange,
+  name,
+  value,
+}) => {
+  console.log({ value });
   return (
     <div className="flex flex-col gap-2">
       <p className="text-[#334155] text-[14px] font-semibold ">
@@ -10,6 +19,7 @@ export const Input = ({ label, type, placeholder, error, onChange, name }) => {
           error ? "border-red-600" : "focus:border-green-600"
         }`}
         name={name}
+        value={value}
         type={type}
         placeholder={placeholder}
         onChange={onChange}

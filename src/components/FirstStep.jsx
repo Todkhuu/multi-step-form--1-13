@@ -2,7 +2,7 @@
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Header } from "./Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const FirstStep = ({ setCurrentStep, currentStep }) => {
   const [formValues, setFormValues] = useState({
@@ -15,6 +15,20 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
     lastName: "",
     userName: "",
   });
+  useEffect(() => {
+    const firstname = localStorage.getItem("firstName");
+    const lastname = localStorage.getItem("lastName");
+    const username = localStorage.getItem("userName");
+    if (firstname && lastname && username) {
+      console.log("ajilj bn");
+      setFormValues({
+        ...formValues,
+        firstName: firstname,
+        lastName: lastname,
+        userName: username,
+      });
+    }
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -26,33 +40,37 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
 
   const handleClick = () => {
     const { firstName, lastName, userName } = formValues;
+    let isValid = true;
 
-    !firstName.trim()
-      ? setFormErrors((prev) => ({ ...prev, firstName: "Нэрээ оруул" }))
-      : /[^a-zA-Z]/.test(firstName)
-      ? setFormErrors((prev) => ({ ...prev, firstName: "Текст оруулна уу" }))
-      : "";
+    if (!firstName.trim()) {
+      setFormErrors((prev) => ({ ...prev, firstName: "Нэрээ оруул" }));
+      isValid = false;
+    } else if (/[^a-zA-Z]/.test(firstName)) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, firstName: "Текст оруулна уу" }));
+    }
 
-    !lastName.trim()
-      ? setFormErrors((prev) => ({ ...prev, lastName: "Овгоо оруул" }))
-      : /[^a-zA-Z]/.test(lastName)
-      ? setFormErrors((prev) => ({ ...prev, lastName: "Текст оруулна уу" }))
-      : "";
+    if (!lastName.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, lastName: "Овгоо оруул" }));
+    } else if (/[^a-zA-Z]/.test(lastName)) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, lastName: "Текст оруулна уу" }));
+    }
+    if (!userName.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, userName: "Хэрэглэгчийн нэр" }));
+    } else if (/[^a-zA-Z]/.test(userName)) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, userName: "Текст оруулна уу" }));
+    }
 
-    !userName.trim()
-      ? setFormErrors((prev) => ({ ...prev, userName: "Хэрэглэгчийн нэр" }))
-      : /[^a-zA-Z]/.test(userName)
-      ? setFormErrors((prev) => ({ ...prev, userName: "Текст оруулна уу" }))
-      : "";
-
-    firstName.trim() &&
-    !/[^a-zA-Z]/.test(firstName) &&
-    lastName.trim() &&
-    !/[^a-zA-Z]/.test(lastName) &&
-    userName.trim() &&
-    !/[^a-zA-Z]/.test(userName)
-      ? setCurrentStep(currentStep + 1)
-      : "";
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+      localStorage.setItem("firstName", formValues.firstName);
+      localStorage.setItem("lastName", formValues.lastName);
+      localStorage.setItem("userName", formValues.userName);
+    }
   };
 
   return (
@@ -64,6 +82,7 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
             label={"First Name"}
             type={"text"}
             placeholder={"Your first name"}
+            value={formValues.firstName}
             onChange={handleChange}
             error={formErrors.firstName}
             name={"firstName"}
@@ -72,6 +91,7 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
             label={"Last Name"}
             type={"text"}
             placeholder={"Your last name"}
+            value={formValues.lastName}
             onChange={handleChange}
             error={formErrors.lastName}
             name={"lastName"}
@@ -80,6 +100,7 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
             label={"Username"}
             type={"text"}
             placeholder={"Your username"}
+            value={formValues.userName}
             onChange={handleChange}
             error={formErrors.userName}
             name={"userName"}
