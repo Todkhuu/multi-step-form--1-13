@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "./Input";
+import { FirstFormFields } from "./FirstFormFields";
 import { Button } from "./Button";
 import { Header } from "./Header";
 import { useEffect, useState } from "react";
@@ -77,35 +77,11 @@ export const FirstStep = ({ setCurrentStep, currentStep }) => {
     <div className="w-[480px] h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between">
       <div>
         <Header />
-        <div className="flex flex-col gap-3 mt-[28px]">
-          <Input
-            label={"First Name"}
-            type={"text"}
-            placeholder={"Your first name"}
-            value={formValues.firstName}
-            onChange={handleChange}
-            error={formErrors.firstName}
-            name={"firstName"}
-          />
-          <Input
-            label={"Last Name"}
-            type={"text"}
-            placeholder={"Your last name"}
-            value={formValues.lastName}
-            onChange={handleChange}
-            error={formErrors.lastName}
-            name={"lastName"}
-          />
-          <Input
-            label={"Username"}
-            type={"text"}
-            placeholder={"Your username"}
-            value={formValues.userName}
-            onChange={handleChange}
-            error={formErrors.userName}
-            name={"userName"}
-          />
-        </div>
+        <FirstFormFields
+          formValues={formValues}
+          formErrors={formErrors}
+          handleChange={handleChange}
+        />
       </div>
       <Button
         onClick={handleClick}

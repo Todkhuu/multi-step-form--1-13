@@ -18,13 +18,13 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
   useEffect(() => {
     const date = localStorage.getItem("date");
-    const file = localStorage.getItem("file");
-    if (date && file) {
-      console.log(date && file);
+    // const file = localStorage.getItem("file");
+    if (date) {
+      console.log(date);
       setFormValues({
         ...formValues,
         date: date,
-        file: file,
+        // file: file,
       });
     }
   }, []);
@@ -79,8 +79,12 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     if (isValid) {
       setCurrentStep(currentStep + 1);
       localStorage.setItem("date", formValues.date);
-      localStorage.setItem("file", formValues.file.name);
+      // localStorage.setItem("file", formValues.file.name);
     }
+  };
+
+  const handleClickDelete = () => {
+    setImageUrl("");
   };
 
   const handleClickBack = () => {
@@ -105,6 +109,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
             error={formErrors.file}
             imageUrl={imageUrl}
             name={"file"}
+            onClick={handleClickDelete}
           />
         </div>
       </div>

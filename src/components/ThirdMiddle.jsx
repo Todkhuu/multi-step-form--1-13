@@ -1,7 +1,7 @@
 import { Image } from "lucide-react";
-import { ThirdStep } from "./ThirdStep";
+import { CircleX } from "lucide-react";
 
-export const ThirdMiddle = ({ onChange, error, imageUrl, name }) => {
+export const ThirdMiddle = ({ onChange, error, imageUrl, name, onClick }) => {
   return (
     <div>
       <p className="text-[#334155] text-[14px] font-semibold mb-[8px]">
@@ -12,22 +12,22 @@ export const ThirdMiddle = ({ onChange, error, imageUrl, name }) => {
         className=" w-[100%] h-[180px] bg-[#f8f8f8] flex flex-col items-center justify-center gap-2 overflow-hidden"
       >
         {imageUrl ? (
-          <div className="relative flex ">
+          <div className="w-[100%] h-[100%] relative flex justify-center ">
             <img
               className=" z-10 w-[100%] h-[100%] object-contain "
               src={imageUrl}
               alt=""
             />
-            <button className="w-[10px] h-[10px] bg-black absolute right-1"></button>
+            <button onClick={onClick} className="absolute right-2 top-2 z-50">
+              <CircleX className="w-[15px] h-[15px] " />
+            </button>
           </div>
         ) : (
           <div>
             <div className=" w-7 h-7 bg-white rounded-full flex items-center justify-center ">
               <Image className="w-3 h-3 " />
             </div>
-            <p className="  text-[#272729] text-[14px] font-medium">
-              Add image
-            </p>
+            <p className="text-[#272729] text-[14px] font-medium">Add image</p>
           </div>
         )}
 
