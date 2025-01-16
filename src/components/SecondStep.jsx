@@ -1,7 +1,8 @@
+"use client";
 import { Input } from "./Input";
 import { Button, BackButton } from "./Button";
 import { Header } from "./Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const SecondStep = ({ setCurrentStep, currentStep }) => {
   const [formValues, setFormValues] = useState({
@@ -17,6 +18,23 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    const Email = localStorage.getItem("email");
+    const phonenumber = localStorage.getItem("phoneNumber");
+    const Password = localStorage.getItem("password");
+    const confirmpassword = localStorage.getItem("confirmPassword");
+    if (Email && phonenumber && Password && confirmpassword) {
+      console.log(Email && phonenumber && Password && confirmpassword);
+      setFormValues({
+        ...formValues,
+        email: Email,
+        phoneNumber: phonenumber,
+        password: Password,
+        confirmPassword: confirmpassword,
+      });
+    }
+  }, []);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name, value);
@@ -27,44 +45,55 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
 
   const handleClick = () => {
     const { email, phoneNumber, password, confirmPassword } = formValues;
+    let isValid = true;
 
-    !email.trim()
-      ? setFormErrors((prev) => ({ ...prev, email: "Мэйл хаягаа оруулна уу" }))
-      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      ? setFormErrors((prev) => ({ ...prev, email: "Зөв мэйл хаягаа оруулна уу", }))
-      : "";
-    !phoneNumber.trim()
-      ? setFormErrors((prev) => ({ ...prev, phoneNumber: "Утасны дугаараа оруулна уу.", }))
-      : !/^\+?\d{8}$/.test(phoneNumber)
-      ? setFormErrors((prev) => ({ ...prev, phoneNumber: "Тоо оруулна уу" }))
-      : phoneNumber.length < 8
-      ? setFormErrors((prev) => ({ ...prev, phoneNumber: "8 оронтой дугаар оруулна уу.", }))
-      : "";
-    !password.trim()
-      ? setFormErrors((prev) => ({ ...prev, password: "Нууц үгээ оруулна уу", }))
-      : password.length < 6
-      ? setFormErrors((prev) => ({ ...prev, password: "6 оронтой дугаар оруулна уу.", }))
-      : "";
-    !confirmPassword.trim()
-      ? setFormErrors((prev) => ({ ...prev, confirmPassword: "Нууц үгээ давтаж оруулна уу", }))
-      : "";
-    password !== confirmPassword
-      ? setFormErrors((prev) => ({ ...prev, confirmPassword: "Таны оруулсан нууц үг таарахгүй байна.", }))
-      : "";
-      
-    email.trim() &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-    phoneNumber.trim() &&
-    /^\+?\d{8}$/.test(phoneNumber) &&
-    phoneNumber.length >= 8 &&
-    password.trim() &&
-    password.length >= 6 &&
-    confirmPassword.trim() &&
-    password == confirmPassword
-      ? setCurrentStep(currentStep + 1)
-      : "";
+    if (!email.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, email: "Мэйл хаягаа оруулна уу" }));
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, email: "Зөв мэйл хаягаа оруулна уу" }));
+    }
+
+    if (!phoneNumber.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, phoneNumber: "Утасны дугаараа оруулна уу." }));
+    } else if (!/^\+?\d{8}$/.test(phoneNumber)) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, phoneNumber: "Тоо оруулна уу" }));
+    }
+
+    if (phoneNumber.length < 8) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, phoneNumber: "8 оронтой дугаар оруулна уу." }));
+    }
+
+    if (!password.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, password: "Нууц үгээ оруулна уу" }));
+    } else if (password.length < 6) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, password: "6 оронтой дугаар оруулна уу." }));
+    }
+
+    if (!confirmPassword.trim()) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, confirmPassword: "Нууц үгээ давтаж оруулна уу" }));
+    }
+    
+    if (password !== confirmPassword) {
+      isValid = false;
+      setFormErrors((prev) => ({ ...prev, confirmPassword: "Таны оруулсан нууц үг таарахгүй байна." }));
+    }
+
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+      localStorage.setItem("email", formValues.email);
+      localStorage.setItem("phoneNumber", formValues.phoneNumber);
+      localStorage.setItem("password", formValues.password);
+      localStorage.setItem("confirmPassword", formValues.confirmPassword);
+    }
   };
-
   const handleClickBack = () => {
     return setCurrentStep(currentStep - 1);
   };
@@ -77,6 +106,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
             label={"Email"}
             type={"email"}
             placeholder={"Your email"}
+            value={formValues.email}
             onChange={handleChange}
             error={formErrors.email}
             name={"email"}
@@ -85,6 +115,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
             label={"Phone number"}
             type={"text"}
             placeholder={"Your phone number"}
+            value={formValues.phoneNumber}
             onChange={handleChange}
             error={formErrors.phoneNumber}
             name={"phoneNumber"}
@@ -93,6 +124,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
             label={"Password"}
             type={"password"}
             placeholder={"Your password"}
+            value={formValues.password}
             onChange={handleChange}
             error={formErrors.password}
             name={"password"}
@@ -101,6 +133,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
             label={"Confirm password"}
             type={"password"}
             placeholder={"Confirm password"}
+            value={formValues.confirmPassword}
             onChange={handleChange}
             error={formErrors.confirmPassword}
             name={"confirmPassword"}
