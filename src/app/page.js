@@ -4,6 +4,7 @@ import { SecondStep } from "@/components/SecondStep";
 import { ThirdStep } from "@/components/ThirdStep";
 import { End } from "@/components/End";
 import { useState } from "react";
+import { AnimatePresence } from "motion/react";
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -11,7 +12,9 @@ export default function Home() {
   const FormSteps = [FirstStep, SecondStep, ThirdStep, End][currentStep];
   return (
     <div className="flex justify-center items-center h-[100vh]">
-      <FormSteps currentStep={currentStep} setCurrentStep={setCurrentStep} />
+      <AnimatePresence initial={false}>
+        <FormSteps currentStep={currentStep} setCurrentStep={setCurrentStep} />
+      </AnimatePresence>
     </div>
   );
 }

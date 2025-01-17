@@ -1,9 +1,15 @@
 import { Image } from "lucide-react";
 import { CircleX } from "lucide-react";
+import * as motion from "motion/react-client";
 
 export const ThirdMiddle = ({ onChange, error, imageUrl, name, onClick }) => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 1 }}
+    >
       <p className="text-[#334155] text-[14px] font-semibold mb-[8px]">
         Profile image
       </p>
@@ -40,6 +46,6 @@ export const ThirdMiddle = ({ onChange, error, imageUrl, name, onClick }) => {
         />
       </label>
       <p className="text-[14px] mt-2 text-red-600 ">{error} </p>
-    </div>
+    </motion.div>
   );
 };

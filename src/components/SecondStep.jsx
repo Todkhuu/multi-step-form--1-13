@@ -3,6 +3,7 @@ import { Input } from "./Input";
 import { Button, BackButton } from "./Button";
 import { Header } from "./Header";
 import { useState, useEffect } from "react";
+import * as motion from "motion/react-client";
 
 export const SecondStep = ({ setCurrentStep, currentStep }) => {
   const [formValues, setFormValues] = useState({
@@ -52,12 +53,18 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
       setFormErrors((prev) => ({ ...prev, email: "Мэйл хаягаа оруулна уу" }));
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, email: "Зөв мэйл хаягаа оруулна уу" }));
+      setFormErrors((prev) => ({
+        ...prev,
+        email: "Зөв мэйл хаягаа оруулна уу",
+      }));
     }
 
     if (!phoneNumber.trim()) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, phoneNumber: "Утасны дугаараа оруулна уу." }));
+      setFormErrors((prev) => ({
+        ...prev,
+        phoneNumber: "Утасны дугаараа оруулна уу.",
+      }));
     } else if (!/^\+?\d{8}$/.test(phoneNumber)) {
       isValid = false;
       setFormErrors((prev) => ({ ...prev, phoneNumber: "Тоо оруулна уу" }));
@@ -65,7 +72,10 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
 
     if (phoneNumber.length < 8) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, phoneNumber: "8 оронтой дугаар оруулна уу." }));
+      setFormErrors((prev) => ({
+        ...prev,
+        phoneNumber: "8 оронтой дугаар оруулна уу.",
+      }));
     }
 
     if (!password.trim()) {
@@ -73,17 +83,26 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
       setFormErrors((prev) => ({ ...prev, password: "Нууц үгээ оруулна уу" }));
     } else if (password.length < 6) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, password: "6 оронтой дугаар оруулна уу." }));
+      setFormErrors((prev) => ({
+        ...prev,
+        password: "6 оронтой дугаар оруулна уу.",
+      }));
     }
 
     if (!confirmPassword.trim()) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, confirmPassword: "Нууц үгээ давтаж оруулна уу" }));
+      setFormErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Нууц үгээ давтаж оруулна уу",
+      }));
     }
-    
+
     if (password !== confirmPassword) {
       isValid = false;
-      setFormErrors((prev) => ({ ...prev, confirmPassword: "Таны оруулсан нууц үг таарахгүй байна." }));
+      setFormErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Таны оруулсан нууц үг таарахгүй байна.",
+      }));
     }
 
     if (isValid) {
@@ -98,7 +117,13 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
     return setCurrentStep(currentStep - 1);
   };
   return (
-    <div className="w-[480px] min-h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between">
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 1 }}
+      className="w-[480px] min-h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between"
+    >
       <div>
         <Header />
         <div className="flex flex-col gap-3 mt-[28px]">
@@ -141,13 +166,18 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
         </div>
       </div>
       <div className="flex gap-[10px]">
-        <BackButton backClick={handleClickBack} bLabel={"Back"} />
+        <BackButton
+          whileTap={{ y: 1 }}
+          backClick={handleClickBack}
+          bLabel={"Back"}
+        />
         <Button
+          whileTap={{ y: 1 }}
           onClick={handleClick}
           bLabel={"Continue"}
           currentStep={currentStep}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };

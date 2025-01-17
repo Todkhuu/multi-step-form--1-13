@@ -4,6 +4,7 @@ import { BackButton } from "./Button";
 import { Header } from "./Header";
 import { ThirdMiddle } from "./ThirdMiddle";
 import { useEffect, useState } from "react";
+import * as motion from "motion/react-client";
 
 export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   const [formValues, setFormValues] = useState({
@@ -91,7 +92,13 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     return setCurrentStep(currentStep - 1);
   };
   return (
-    <div className="w-[480px] min-h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between">
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 1 }}
+      className="w-[480px] min-h-[655px] rounded-lg bg-white p-8 flex flex-col justify-between"
+    >
       <div>
         <Header />
         <div className="flex flex-col gap-3 mt-[28px]">
@@ -121,6 +128,6 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
           currentStep={currentStep}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
