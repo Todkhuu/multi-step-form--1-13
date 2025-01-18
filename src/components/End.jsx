@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 export const End = () => {
   return (
     <motion.div

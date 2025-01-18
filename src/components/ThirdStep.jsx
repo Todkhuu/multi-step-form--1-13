@@ -9,23 +9,22 @@ import * as motion from "motion/react-client";
 export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   const [formValues, setFormValues] = useState({
     date: "",
-    file: "",
+    files: "",
   });
   const [formErrors, setFormErrors] = useState({
     date: "",
-    file: "",
+    files: "",
   });
   const [imageUrl, setImageUrl] = useState();
-
+  console.log("formvalueee", formValues);
   useEffect(() => {
     const date = localStorage.getItem("date");
-    // const file = localStorage.getItem("file");
+    const files = localStorage.getItem("files");
     if (date) {
-      console.log(date);
       setFormValues({
         ...formValues,
         date: date,
-        // file: file,
+        files: files,
       });
     }
   }, []);
@@ -56,7 +55,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   };
 
   const handleClick = () => {
-    const { date, file } = formValues;
+    const { date, files } = formValues;
     let isValid = true;
 
     if (!date) {
@@ -64,11 +63,11 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
       setFormErrors((prev) => ({ ...prev, date: "Төрсөн өдрөө оруулна уу" }));
     }
 
-    if (!file) {
+    if (!files) {
       isValid = false;
       setFormErrors((prev) => ({
         ...prev,
-        file: "Профайл зурагаа оруулна уу",
+        files: "Профайл зурагаа оруулна уу",
       }));
     }
 
@@ -80,7 +79,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     if (isValid) {
       setCurrentStep(currentStep + 1);
       localStorage.setItem("date", formValues.date);
-      // localStorage.setItem("file", formValues.file.name);
+      localStorage.setItem("files", formValues.files);
     }
   };
 
@@ -111,11 +110,11 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
             name={"date"}
           />
           <ThirdMiddle
-            value={formValues.file}
+            value={formValues.files}
             onChange={onFileUpload}
-            error={formErrors.file}
+            error={formErrors.files}
             imageUrl={imageUrl}
-            name={"file"}
+            name={"files"}
             onClick={handleClickDelete}
           />
         </div>
