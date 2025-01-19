@@ -2,7 +2,14 @@ import { Image } from "lucide-react";
 import { CircleX } from "lucide-react";
 import * as motion from "motion/react-client";
 
-export const ThirdMiddle = ({ onChange, error, imageUrl, name, onClick }) => {
+export const ThirdMiddle = ({
+  onChange,
+  error,
+  imageUrl,
+  name,
+  onClick,
+  type,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -40,7 +47,7 @@ export const ThirdMiddle = ({ onChange, error, imageUrl, name, onClick }) => {
         <input
           hidden
           id="file-input"
-          type="file"
+          type={type}
           onChange={onChange}
           name={name}
         />

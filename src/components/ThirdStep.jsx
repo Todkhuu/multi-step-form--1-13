@@ -9,32 +9,32 @@ import * as motion from "motion/react-client";
 export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   const [formValues, setFormValues] = useState({
     date: "",
-    files: "",
+    file: "",
   });
   const [formErrors, setFormErrors] = useState({
     date: "",
-    files: "",
+    file: "",
   });
   const [imageUrl, setImageUrl] = useState();
-  console.log("formvalueee", formValues);
+
   useEffect(() => {
     const date = localStorage.getItem("date");
-    const files = localStorage.getItem("files");
+    const file = localStorage.getItem("file");
     if (date) {
       setFormValues({
         ...formValues,
         date: date,
-        files: files,
+        file: file,
       });
     }
   }, []);
 
   const onFileUpload = (event) => {
-    const files = event.target.files[0];
+    const file = event.target.files[0];
     const name = event.target.name;
-    setImageUrl(URL.createObjectURL(files));
+    setImageUrl(URL.createObjectURL(file));
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
-    setFormValues((prev) => ({ ...prev, [name]: files }));
+    setFormValues((prev) => ({ ...prev, [name]: file }));
   };
   // console.log(formValues.file);
 
@@ -55,7 +55,7 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
   };
 
   const handleClick = () => {
-    const { date, files } = formValues;
+    const { date, file } = formValues;
     let isValid = true;
 
     if (!date) {
@@ -63,11 +63,11 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
       setFormErrors((prev) => ({ ...prev, date: "Төрсөн өдрөө оруулна уу" }));
     }
 
-    if (!files) {
+    if (!file) {
       isValid = false;
       setFormErrors((prev) => ({
         ...prev,
-        files: "Профайл зурагаа оруулна уу",
+        file: "Профайл зурагаа оруулна уу",
       }));
     }
 
@@ -79,7 +79,12 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     if (isValid) {
       setCurrentStep(currentStep + 1);
       localStorage.setItem("date", formValues.date);
-      localStorage.setItem("files", formValues.files);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64File = reader.result; // Base64 болгосон өгөгдөл
+        localStorage.setItem("file", base64File); // LocalStorage-д хадгална
+      };
+      reader.readAsDataURL(file); // file-iig Base64-д хөрвүүлэх
     }
   };
 
@@ -110,11 +115,12 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
             name={"date"}
           />
           <ThirdMiddle
-            value={formValues.files}
+            type="file"
+            value={formValues.file}
             onChange={onFileUpload}
-            error={formErrors.files}
+            error={formErrors.file}
             imageUrl={imageUrl}
-            name={"files"}
+            name={"file"}
             onClick={handleClickDelete}
           />
         </div>
