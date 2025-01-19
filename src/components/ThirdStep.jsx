@@ -31,8 +31,11 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
   const onFileUpload = (event) => {
     const file = event.target.files[0];
+    console.log("FILE", file);
     const name = event.target.name;
-    setImageUrl(URL.createObjectURL(file));
+    const imageUrl = URL.createObjectURL(file);
+    console.log("FILE URL", imageUrl);
+    setImageUrl(imageUrl);
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
     setFormValues((prev) => ({ ...prev, [name]: file }));
   };
@@ -49,7 +52,6 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -79,17 +81,13 @@ export const ThirdStep = ({ currentStep, setCurrentStep }) => {
     if (isValid) {
       setCurrentStep(currentStep + 1);
       localStorage.setItem("date", formValues.date);
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64File = reader.result; // Base64 болгосон өгөгдөл
-        localStorage.setItem("file", base64File); // LocalStorage-д хадгална
-      };
-      reader.readAsDataURL(file); // file-iig Base64-д хөрвүүлэх
+      localStorage.setItem("file", formValues.file);
     }
   };
 
   const handleClickDelete = () => {
     setImageUrl("");
+    setFormValues((prev) => ({ ...prev, file: "" }));
   };
 
   const handleClickBack = () => {

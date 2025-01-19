@@ -41,7 +41,7 @@ export const SecondStep = ({ setCurrentStep, currentStep }) => {
     console.log(name, value);
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
 
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    setFormValues((prev) => ({ ...prev, [name]: value.toUpperCase() }));
   };
 
   const handleClick = () => {
